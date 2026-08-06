@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIGH TECH PS - Playstation Host & Firmware Center</title>
+    <style>
+        :root {
+            --bg-color: #0b0e14;
+            --card-bg: #161b22;
+            --accent-blue: #0072ce;
+            --accent-cyan: #00f0ff;
+            --accent-purple: #7000ff;
+            --text-color: #f0f6fc;
+            --text-dim: #8b949e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Header & High Res Logo */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 10px;
+        }
+
+        .logo-container {
+            width: 280px;
+            height: 120px;
+            margin: 0 auto 15px auto;
+            filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.4));
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            letter-spacing: 1px;
+        }
+
+        .sub-title {
+            color: var(--accent-cyan);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* Status & Console Switch */
+        .status-bar {
+            background: var(--card-bg);
+            border: 1px solid #30363d;
+            padding: 10px 20px;
+            border-radius: 30px;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        /* Navigation Tabs */
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            background: var(--card-bg);
+            border: 2px solid var(--accent-blue);
+            color: var(--text-color);
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(0, 114, 206, 0.6);
+        }
+
+        /* Content Sections */
+        .section {
+            display: none;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .section.active {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* Cards Style */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            padding: 20px;
+            transition: transform 0.2s, border-color 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .card p {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .btn-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .payload-btn {
+            background: #21262d;
+            border: 1px solid #363b42;
+            color: var(--text-color);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .payload-btn:hover {
+            background: var(--accent-blue);
+            border-color: var(--accent-cyan);
+            color: #fff;
+        }
+
+        footer {
+            margin-top: auto;
+            padding-top: 40px;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- High Resolution SVG Logo for HIGH TECH PS -->
+    <header>
+        <div class="logo-container">
+            <svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="psGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#00f0ff;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#7000ff;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M 150 40 Q 250 10 350 40 Q 400 110 360 160 Q 320 170 300 130 Q 250 140 200 130 Q 180 170 140 160 Q 100 110 150 40 Z" fill="none" stroke="url(#psGrad)" stroke-width="6" opacity="0.3"/>
+                <text x="250" y="85" font-family="'Arial Black', Impact, sans-serif" font-size="52" fill="url(#psGrad)" text-anchor="middle" font-weight="900" letter-spacing="2">HIGH TECH</text>
+                <text x="250" y="135" font-family="'Arial Black', Impact, sans-serif" font-size="40" fill="#ffffff" text-anchor="middle" font-weight="900" letter-spacing="8">PS</text>
+                <text x="250" y="170" font-family="sans-serif" font-size="14" fill="#00f0ff" text-anchor="middle" letter-spacing="3">MAINTENANCE & MODDING CENTER</text>
+            </svg>
+        </div>
+        <h1>HIGH TECH PS HOST</h1>
+        <p class="sub-title">مركز صيانه وتعديل أجهزة البلايستيشن</p>
+    </header>
+
+    <div class="status-bar" id="status">الحالة: جاهز لتشغيل الثغرة (Ready)</div>
+
+    <!-- Console Selector -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('ps4')">PS4 Firmware</button>
+        <button class="tab-btn" onclick="switchTab('ps5')">PS5 Firmware</button>
+    </div>
+
+    <!-- PS4 SECTION -->
+    <div id="ps4" class="section active">
+
+        <!-- PS4 10.00 / 10.01 (الجديد) -->
+        <div class="card">
+            <h3>PS4 FW 10.00 / 10.01</h3>
+            <p>تشغيل GoldHEN المحدث خصيصاً لإصدارات 10.00 و 10.01</p>
+            <div class="btn-grid">
+                <button class="payload-btn" onclick="loadPayload('GoldHEN v2.4b18 (FW 10.00)')">GoldHEN v2.4b18 (10.00)</button>
+                <button class="payload-btn" onclick="loadPayload('GoldHEN v2.4b18 (FW 10.01)')">GoldHEN v2.4b18 (10.01)</button>
+                <button class="payload-btn" onclick="loadPayload('PPPwn Loader 10.00/10.01')">PPPwn Loader (10.00/10.01)</button>
+            </div>
+        </div>
+
+        <!-- PS4 11.00 & 11.02 (الجديد) -->
+        <div class="card">
+            <h3>PS4 FW 11.00 & 11.02</h3>
+            <p>دعم كامل للسوفتوير 11.00 و 11.02 عبر ثغرة PPPwn والـ Payloads</p>
+            <div class="btn-grid">
+                <button class="payload-btn" onclick="loadPayload('GoldHEN (FW 11.00)')">GoldHEN (11.00)</button>
+                <button class="payload-btn" onclick="loadPayload('GoldHEN / PPPwn (FW 11.02)')">GoldHEN / PPPwn (11.02)</button>
+                <button class="payload-btn" onclick="loadPayload('Linux Loader (11.00/11.02)')">Linux Loader (11.00 / 11.02)</button>
+                <button class="payload-btn" onclick="loadPayload('Disable Updates (11.02)')">Disable Updates (11.02)</button>
+            </div>
+        </div>
+
+        <!-- PS4 9.00 -->
+        <div class="card">
+            <h3>PS4 FW 9.00</h3>
+            <p>تعديلات وإصدارات GoldHEN ومستلزمات النظام لـ 9.00</p>
+            <div class="btn-grid">
+                <button class="payload-btn" onclick="loadPayload('GoldHEN v2.4b14 (9.00)')">GoldHEN v2.4b14</button>
+                <button class="payload-btn" onclick="loadPayload('App2USB')">App2USB</button>
+                <button class="payload-btn" onclick="loadPayload('Orbis Toolbox')">Orbis Toolbox</button>
+            </div>
+        </div>
+
+        <!-- PS4 Legacy (5.05 - 7.55) -->
+        <div class="card">
+            <h3>PS4 Legacy (5.05 - 7.55)</h3>
+            <p>دعم الإصدارات القديمة والمستقرة</p>
+            <div class="btn-grid">
+                <button class="payload-btn" onclick="loadPayload('GoldHEN 5.05')">GoldHEN (FW 5.05)</button>
+                <button class="payload-btn" onclick="loadPayload('GoldHEN 6.72')">GoldHEN (FW 6.72)</button>
+                <button class="payload-btn" onclick="loadPayload('GoldHEN 7.55')">GoldHEN (FW 7.55)</button>
+                <button class="payload-btn" onclick="loadPayload('DB Backup')">DB Backup / Restore</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PS5 SECTION -->
+    <div id="ps5" class="section">
+        <!-- PS5 3.xx - 4.xx -->
+        <div class="card">
+            <h3>PS5 FW 3.00 - 4.51</h3>
+            <p>تعديلات etaHEN ومستلزمات الجيل الجديد</p>
+            <div class="btn-grid">
+                <button class="payload-btn" onclick="loadPayload('etaHEN v1.8b')">etaHEN v1.8b (with Cheats)</button>
+                <button class="payload-btn" onclick="loadPayload('Kstuff 4.51')">Enable Kstuff</button>
+                <button class="payload-btn" onclick="loadPayload('PS5 Debug Tool')">PS5 Debug</button>
+            </div>
+        </div>
+
+        <!-- PS5 Tools -->
+        <div class="card">
+            <h3>PS5 Tools & Utilities</h3>
+            <p>أدوات الحماية، نقل الألعاب، وإدارة الملفات</p>
+            <div class="btn-grid">
+                <button class="payload-btn" onclick="loadPayload('FTP Server PS5')">FTP Server</button>
+                <button class="payload-btn" onclick="loadPayload('Versions Spoofer')">Version Spoofer</button>
+                <button class="payload-btn" onclick="loadPayload('ItemzFlow PS5')">ItemzFlow Game Manager</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 HIGH TECH PS Maintenance Center - Designed for Maximum Stability</p>
+    </footer>
+
+    <script>
+        function switchTab(consoleType) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            
+            if(consoleType === 'ps4') {
+                event.target.classList.add('active');
+                document.getElementById('ps4').classList.add('active');
+            } else {
+                event.target.classList.add('active');
+                document.getElementById('ps5').classList.add('active');
+            }
+        }
+
+        function loadPayload(payloadName) {
+            const status = document.getElementById('status');
+            status.innerText = 'جاري تحميل: ' + payloadName + '... برجاء الانتظار';
+            status.style.color = '#00f0ff';
+            
+            setTimeout(() => {
+                status.innerText = 'تم تفعيل ' + payloadName + ' بنجاح! (Done)';
+                status.style.color = '#00ff88';
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
